@@ -14,8 +14,19 @@ router.post('/user', (req, res) => {
     });
 });
 
-router.get('/signup', (req, res) => {
-    res.render('signup.ejs')
+router.post('/userlogin', (req, res) => {
+    User.findOne({ 'firstname': req.body.username }, (error, user) => {
+        if (error) console.log(error)
+        user.checkPassword(req.body.password, (error, match) => {
+            if (error) console.log(error)
+            if (match) {
+                req.session.user_id = user._id;
+                res.json({ message: 'logged in and session set' });
+            } else {
+                res.json({ message: 'username or password where incorrect' });
+            }
+        });
+    });
 });
 
 module.exports = router
