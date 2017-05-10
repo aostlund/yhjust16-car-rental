@@ -9,18 +9,17 @@ const UserSchema = mongoose.Schema({
     lastname: String
 });
 
-UserSchema.pre('save', next => {
+UserSchema.pre('save', function(next) {
     const user = this;
     if (!user.isModified('password')) return next()
     bcrypt.genSalt((error, salt) => {
         if (error) return next(error)
         bcrypt.hash(user.password, salt, (error, hash) => {
             if (error) return next(error)
-
             user.password = hash;
             next()
-        })
-    })
+        });
+    });
 });
 
 UserSchema.methods.checkPassword = (password, callback) => {
