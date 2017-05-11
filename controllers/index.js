@@ -5,6 +5,6 @@ const router = express.Router();
 
 //Controllers to load
 router.use('/', require('./home'));
-router.use('/', require('./user'));
+router.use('/user', require('./user'));
 
 module.exports = router

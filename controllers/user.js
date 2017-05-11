@@ -5,7 +5,7 @@ const router = express.Router();
 const User = require('../models/user')
 
 //Creates a new user and redirects to root
-router.post('/user', (req, res) => {
+router.post('/', (req, res) => {
     var user = new User();
     user.username = req.body.username;
     user.password = req.body.password;
@@ -21,7 +21,7 @@ router.post('/user', (req, res) => {
 });
 
 //Handles user login
-router.post('/userlogin', (req, res) => {
+router.post('/login', (req, res) => {
     User.findOne({ 'firstname': req.body.username }, (error, user) => {
         if (error) console.log(error)
         else if (user) {
@@ -41,7 +41,7 @@ router.post('/userlogin', (req, res) => {
 });
 
 //Handles user logout
-router.get('/userlogout', (req,res) => {
+router.get('/logout', (req,res) => {
     req.session.destroy((error) => {
         if (error) console.log(error)
         else res.redirect('/login')
