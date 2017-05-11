@@ -1,7 +1,10 @@
+//User controlle handles routes for user functions
+
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user')
 
+//Creates a new user and redirects to root
 router.post('/user', (req, res) => {
     var user = new User();
     user.username = req.body.username;
@@ -17,6 +20,7 @@ router.post('/user', (req, res) => {
     });
 });
 
+//Handles user login
 router.post('/userlogin', (req, res) => {
     User.findOne({ 'firstname': req.body.username }, (error, user) => {
         if (error) console.log(error)
@@ -36,6 +40,7 @@ router.post('/userlogin', (req, res) => {
     });
 });
 
+//Handles user logout
 router.get('/userlogout', (req,res) => {
     req.session.destroy((error) => {
         if (error) console.log(error)

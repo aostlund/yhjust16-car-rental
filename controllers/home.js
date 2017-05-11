@@ -1,19 +1,24 @@
+//Routes for base pages
+
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user')
 
+//Root route, if user is logged in goto index else the signup page
 router.get('/', (req, res) => {
     if (!req.session.user) {
-        res.redirect('/signup')
+        res.redirect('/signup');
     }
-    res.render('index.ejs', req.session.user)
+    res.render('index.ejs', req.session.user);
 });
 
+//Route for signup page
 router.get('/signup', (req, res) => {
-    res.render('signup.ejs')
+    res.render('signup.ejs');
 });
 
+//Route for login page
 router.get('/login', (req, res) => {
-    res.render('login.ejs')
-})
+    res.render('login.ejs');
+});
+
 module.exports = router
