@@ -10,7 +10,10 @@ router.post('/user', (req, res) => {
     user.lastname = req.body.lastname;
     user.save(error => {
         if (error) res.json({ message: error })
-        res.json({ message: 'User created' })
+        else {
+            req.session.user = user
+            res.redirect('/');
+        }
     });
 });
 
@@ -20,13 +23,20 @@ router.post('/userlogin', (req, res) => {
         user.checkPassword(req.body.password, (error, match) => {
             if (error) console.log(error)
             if (match) {
-                req.session.user_id = user._id;
-                res.json({ message: 'logged in and session set' });
+                req.session.user = user;
+                res.redirect('/')
             } else {
                 res.json({ message: 'username or password where incorrect' });
             }
         });
     });
+});
+
+router.get('/userlogout', (req,res) => {
+    req.session.destroy((error) => {
+        if (error) console.log(error)
+        else res.redirect('/login')
+    })
 });
 
 module.exports = router
