@@ -6,11 +6,7 @@ const User = require('../models/user')
 
 //Creates a new user and redirects to root
 router.post('/', (req, res) => {
-    var user = new User();
-    user.username = req.body.username;
-    user.password = req.body.password;
-    user.firstname = req.body.firstname;
-    user.lastname = req.body.lastname;
+    var user = new User(req.body);
     user.save(error => {
         if (error) res.json({ message: error })
         else {
