@@ -20,15 +20,19 @@ router.post('/user', (req, res) => {
 router.post('/userlogin', (req, res) => {
     User.findOne({ 'firstname': req.body.username }, (error, user) => {
         if (error) console.log(error)
-        user.checkPassword(req.body.password, (error, match) => {
-            if (error) console.log(error)
-            if (match) {
-                req.session.user = user;
-                res.redirect('/')
-            } else {
-                res.json({ message: 'username or password where incorrect' });
-            }
-        });
+        else if (user) {
+            user.checkPassword(req.body.password, (error, match) => {
+                if (error) console.log(error)
+                if (match) {
+                    req.session.user = user;
+                    res.redirect('/')
+                } else {
+                    res.json({ message: 'username or password where incorrect' });
+                }
+            });
+        } else {
+            res.json({ message: 'username or password where incorrect' });
+        }
     });
 });
 
